@@ -52,24 +52,32 @@ ShowInstDetails show
 ; Installer Sections
 
 Section "Drivers"
+	Call ExtractWDISimple
 	Call InstallSerialDrivers
 	Call InstallDFUDrivers
 SectionEnd
 
-Function InstallSerialDrivers
+Function ExtractWDISimple
     SetOutPath $TEMP
-	!insertmacro ExtractSerialDrivers "serial_drivers"
-	!insertmacro InstallSerialDriver "Core" "serial_drivers\spark_core"
-	!insertmacro InstallSerialDriver "Photon" "serial_drivers\photon"
-	!insertmacro InstallSerialDriver "P1" "serial_drivers\P1"
-	!insertmacro InstallSerialDriver "Electron" "serial_drivers\electron"
+	!insertmacro ExtractWDISimple
+FunctionEnd
+
+Function InstallSerialDrivers
+	!insertmacro InstallSerialDriver "Core" "0x1D50" "0x607D"
+	!insertmacro InstallSerialDriver "Photon" "0x2B04" "0xC006"
+	!insertmacro InstallSerialDriver "P1" "0x2B04" "0xC008"
+	!insertmacro InstallSerialDriver "Electron" "0x2B04" "0xC00A"
+	!insertmacro InstallSerialDriver "Argon" "0x2B04" "0xC00C"
+	!insertmacro InstallSerialDriver "Boron" "0x2B04" "0xC00D"
+	!insertmacro InstallSerialDriver "Xenon" "0x2B04" "0xC00E"
 FunctionEnd
 
 Function InstallDFUDrivers
-	!insertmacro ExtractWDISimple
-
 	!insertmacro InstallDFUDriver "Core" "0x1D50" "0x607F"
-	!insertmacro InstallDFUDriver "Photon" "0x2B04" "0xD006" 
-	!insertmacro InstallDFUDriver "P1" "0x2B04" "0xD008" 
-	!insertmacro InstallDFUDriver "Electron" "0x2B04" "0xD00A" 
+	!insertmacro InstallDFUDriver "Photon" "0x2B04" "0xD006"
+	!insertmacro InstallDFUDriver "P1" "0x2B04" "0xD008"
+	!insertmacro InstallDFUDriver "Electron" "0x2B04" "0xD00A"
+	!insertmacro InstallDFUDriver "Argon" "0x2B04" "0xD00C"
+	!insertmacro InstallDFUDriver "Boron" "0x2B04" "0xD00D"
+	!insertmacro InstallDFUDriver "Xenon" "0x2B04" "0xD00E"
 FunctionEnd
