@@ -35,7 +35,6 @@
 	${If} $0 <> 0
 		DetailPrint "Driver installation failed."
 		DetailPrint "Please click Install if a Windows Security popup opens asking to trust the libusbK driver."
-		Abort
 	${EndIf}
 !macroend
 
@@ -45,14 +44,7 @@
 	Pop $0 ; Return value
 	${If} $0 <> 0
 		DetailPrint "Driver installation failed."
-		DetailPrint "Please click Install if a Windows Security popup opens asking to trust the driver."
-		Abort
+		DetailPrint "Please click Install if a Windows Security popup opens asking to trust the libwdi driver."
 	${EndIf}
-!macroend
-
-!macro InstallParticleCert
-	DetailPrint "Installing Particle certificate"
-	File "trustcertregister.exe"
-	nsExec::ExecToLog "trustcertregister.exe"
 !macroend
 

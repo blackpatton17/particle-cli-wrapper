@@ -52,9 +52,23 @@ ShowInstDetails show
 ; Installer Sections
 
 Section "Drivers"
+	; separate each driver install in a separate function so the
+	; progress bar updates after each one
 	Call ExtractWDISimple
-	Call InstallSerialDrivers
-	Call InstallDFUDrivers
+	Call InstallSerialDriver1
+	Call InstallSerialDriver2
+	Call InstallSerialDriver3
+	Call InstallSerialDriver4
+	Call InstallSerialDriver5
+	Call InstallSerialDriver6
+	Call InstallSerialDriver7
+	Call InstallDFUDriver1
+	Call InstallDFUDriver2
+	Call InstallDFUDriver3
+	Call InstallDFUDriver4
+	Call InstallDFUDriver5
+	Call InstallDFUDriver6
+	Call InstallDFUDriver7
 SectionEnd
 
 Function ExtractWDISimple
@@ -62,22 +76,46 @@ Function ExtractWDISimple
 	!insertmacro ExtractWDISimple
 FunctionEnd
 
-Function InstallSerialDrivers
+Function InstallSerialDriver1
 	!insertmacro InstallSerialDriver "Core" "0x1D50" "0x607D"
+FunctionEnd
+Function InstallSerialDriver2
 	!insertmacro InstallSerialDriver "Photon" "0x2B04" "0xC006"
+FunctionEnd
+Function InstallSerialDriver3
 	!insertmacro InstallSerialDriver "P1" "0x2B04" "0xC008"
+FunctionEnd
+Function InstallSerialDriver4
 	!insertmacro InstallSerialDriver "Electron" "0x2B04" "0xC00A"
+FunctionEnd
+Function InstallSerialDriver5
 	!insertmacro InstallSerialDriver "Argon" "0x2B04" "0xC00C"
+FunctionEnd
+Function InstallSerialDriver6
 	!insertmacro InstallSerialDriver "Boron" "0x2B04" "0xC00D"
+FunctionEnd
+Function InstallSerialDriver7
 	!insertmacro InstallSerialDriver "Xenon" "0x2B04" "0xC00E"
 FunctionEnd
 
-Function InstallDFUDrivers
+Function InstallDFUDriver1
 	!insertmacro InstallDFUDriver "Core" "0x1D50" "0x607F"
+FunctionEnd
+Function InstallDFUDriver2
 	!insertmacro InstallDFUDriver "Photon" "0x2B04" "0xD006"
+FunctionEnd
+Function InstallDFUDriver3
 	!insertmacro InstallDFUDriver "P1" "0x2B04" "0xD008"
+FunctionEnd
+Function InstallDFUDriver4
 	!insertmacro InstallDFUDriver "Electron" "0x2B04" "0xD00A"
+FunctionEnd
+Function InstallDFUDriver5
 	!insertmacro InstallDFUDriver "Argon" "0x2B04" "0xD00C"
+FunctionEnd
+Function InstallDFUDriver6
 	!insertmacro InstallDFUDriver "Boron" "0x2B04" "0xD00D"
+FunctionEnd
+Function InstallDFUDriver7
 	!insertmacro InstallDFUDriver "Xenon" "0x2B04" "0xD00E"
 FunctionEnd
