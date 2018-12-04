@@ -1,4 +1,4 @@
-# Particle CLI Wrapper
+# Particle CLI Wrapper & Installer
 
 This tools is a wrapper around the [Particle CLI](https://github.com/spark/particle-cli) that manages the version of Node.js used and auto-updates the Javascript modules.
 
@@ -29,6 +29,8 @@ The managed version of Node.js, the modules and the CLI wrapper executable are s
 ## Installer
 
 See the [installer directory](/installer) for the source code of the Mac OSX, Windows and Linux installers that downloads the latest CLI wrapper and runs it once to make Node.js install.
+
+See the [Mac and Linux installer README](/installer/unix/README.md) and [Windows installer README](/installer/windows/README.md) for more details.
 
 ## Development
 
