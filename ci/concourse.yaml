@@ -1,0 +1,86 @@
+# Concourse pipeline to build the Windows CLI installer
+# TODO: also build the particle-cli-wrapper
+
+resources:
+  - name: source-code
+    type: git
+    source:
+      uri: git@github.com:particle-iot/particle-cli-wrapper.git
+      private_key: ((concourse-ci-git-private-key.key))
+
+   #  - name: installer-dev-exe
+   #    type: s3
+   #    source:
+   #      bucket: binaries.particle.io
+   #      access_key_id: ((aws-credentials-3-binaries-particle-io.key))
+   #      secret_access_key: ((aws-credentials-3-binaries-particle-io.secret))
+   #      region_name: us-east-1
+   #      versioned_file: cli/installer/windows/ParticleCLISetup-dev.zip
+   #
+   #  - name: driver-dev-exe
+   #    type: s3
+   #    source:
+   #      bucket: binaries.particle.io
+   #      access_key_id: ((aws-credentials-3-binaries-particle-io.key))
+   #      secret_access_key: ((aws-credentials-3-binaries-particle-io.secret))
+   #      region_name: us-east-1
+   #      versioned_file: cli/installer/windows/ParticleDriverSetup-dev.zip
+   #
+   #  - name: installer-exe
+   #    type: s3
+   #    source:
+   #      bucket: binaries.particle.io
+   #      access_key_id: ((aws-credentials-3-binaries-particle-io.key))
+   #      secret_access_key: ((aws-credentials-3-binaries-particle-io.secret))
+   #      region_name: us-east-1
+   #      versioned_file: cli/installer/windows/ParticleCLISetup.zip
+   #
+   #  - name: driver-exe
+   #    type: s3
+   #    source:
+   #      bucket: binaries.particle.io
+   #      access_key_id: ((aws-credentials-3-binaries-particle-io.key))
+   #      secret_access_key: ((aws-credentials-3-binaries-particle-io.secret))
+   #      region_name: us-east-1
+   #      versioned_file: cli/installer/windows/ParticleDriverSetup.zip
+
+jobs:
+  - name: build-installer
+    serial: true
+    plan:
+      - get: source-code
+        trigger: true
+      - task: build
+        config:
+          platform: windows
+          inputs:
+            - name: source-code
+          outputs:
+            - name: installer-build
+          run:
+            path: source-code\installer\windows\build_all.cmd
+        params:
+          encryption_secret: ((windows-code-signing-certificate.encryption_secret))
+          key_secret: ((windows-code-signing-certificate.key_secret))
+      #- aggregate:
+      #  - put: installer-dev-exe
+      #    params:
+      #      file: installer-build/ParticleCLISetup.exe
+      #  - put: driver-dev-exe
+      #    params:
+      #      file: installer-build/ParticleDriverSetup.exe
+
+#  - name: release-installer
+#    plan:
+#      # Get trigged manually by clicking + in concourse web interface
+#      - get: source-code
+#        trigger: false
+#        passed: build-installer
+#      - aggregate:
+#        - put: installer-exe
+#          params:
+#            file: installer-build/ParticleCLISetup.exe
+#        - put: driver-exe
+#          params:
+#            file: installer-build/ParticleDriverSetup.exe
+
