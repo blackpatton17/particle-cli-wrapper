@@ -234,6 +234,9 @@ Function InstallOpenSSL
 runOpenSSLInstaller:
 	DetailPrint "Installing OpenSSL"
 	nsExec::ExecToLog "$TEMP/${OpenSSLFile} /verysilent"
+	DetailPrint "Adding OpenSSL to path"
+	Push "C:\OpenSSL-Win32\bin"
+	Call AddToPath
 FunctionEnd
 
 Function InstallDFU
