@@ -14,7 +14,7 @@ BINARY="particle"
 DEST_PATH="$HOME/bin"
 DEST="$DEST_PATH/$BINARY"
 MANIFEST_URL="https://binaries.particle.io/cli/master/manifest.json"
-SHELL_CONFIG="$HOME/.profile"
+SHELL_CONFIG="$HOME/.bash_profile"
 
 # Compute OS and architecture
 UNAME=$(uname -s)
