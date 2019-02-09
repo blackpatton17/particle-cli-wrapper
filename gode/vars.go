@@ -67,6 +67,10 @@ func npmPathFromBase(base string) string {
 	return filepath.Join(base, "lib", "node_modules", "npm", "bin", "npm-cli.js")
 }
 
+func libModulesPathFromBase(base string) string {
+	return filepath.Join(base, "lib", "node_modules")
+}
+
 func modulesDir() string {
 	return filepath.Join(rootPath, "node_modules")
 }
