@@ -16,7 +16,6 @@ TARGETS = [
   {os: 'darwin', arch: 'amd64'},
   {os: 'linux', arch: 'arm', goarm: '6'},
   {os: 'linux', arch: 'amd64'},
-  {os: 'linux', arch: '386', go386: '387'},
 ]
 
 VERSION = `./version`.chomp
