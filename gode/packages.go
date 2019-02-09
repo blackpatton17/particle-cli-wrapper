@@ -128,6 +128,7 @@ func environ() []string {
 	env = append(env, "NPM_CONFIG_REGISTRY="+registry)
 	env = append(env, "NPM_CONFIG_GLOBAL=false")
 	env = append(env, "NPM_CONFIG_ONLOAD_SCRIPT=false")
+	env = append(env, "NPM_CONFIG_AUDIT=false")
 	return env
 }
 
