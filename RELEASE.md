@@ -2,7 +2,7 @@
 
 Prerequisites:
 
-* `gem install rake aws-sdk`
+* `gem install rake aws-sdk-s3`
 * `particle-cli-wrapper` repo
 * `PARTICLE_CLI_RELEASE_ACCESS` and `PARTICLE_CLI_RELEASE_SECRET` for the S3 repository
 

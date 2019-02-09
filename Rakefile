@@ -2,7 +2,7 @@
 # echo '{"hostname":"test","domainname":"example.com"}' | python -c 'import json,sys;obj=json.load(sys.stdin);print obj[0]["hostname"]'
 
 require 'digest'
-require 'aws-sdk'
+require 'aws-sdk-s3'
 require 'json'
 
 PRODUCT_NAME = 'cli'
