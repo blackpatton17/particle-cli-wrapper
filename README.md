@@ -41,6 +41,17 @@ See the [Mac and Linux installer README](/installer/unix/README.md) and [Windows
 - Build executable `go build`
 - Run `./particle-cli-wrapper`
 
+## Releasing
+
+See [RELEASE.md](RELEASE.md)
+
+## Updating version of Node
+
+- Update the version of Node and npm in [`set-node-version`](set-node-version)
+- Run `PARTICLE_CLI_RELEASE_ACCESS=<aws-token> PARTICLE_CLI_RELEASE_SECRET=<aws-secret> ./set-node-version` (this will upload Node tarballs to binaries.particle.io for later retrieval by the CLI wrapper)
+- Test upgrade to new version with extra verbose logging `go build && GODE_DEBUG=verbose PARTICLE_DEBUG=1 ./particle-cli-wrapper update-cli`
+- Follow instructions in [RELEASE.md](RELEASE.md) to cut a beta release
+
 ## License
 
 Copyright 2016 © Particle Industries, Inc. Licensed under the Apache 2 license.

@@ -10,8 +10,9 @@ Instructions:
 
 * Increment version
 * Update CHANGELOG
-* [optional] Update dev branch with latest changes.
-* [optional] Run `rake release` on dev branch to test changes.
+* [optional] Update beta branch with latest changes.
+* [optional] Run `rake release` on beta branch to test changes.
+* [optional] macOS, Linux: Run `CHANNEL=beta bash <( curl -sL https://particle.io/install-cli )` to install the beta
 * Run `rake release` on master branch.
 
 Notes:
