@@ -45,7 +45,7 @@ end
 desc "release particle-cli-wrapper"
 task :release => :build do
   abort 'branch is dirty' if CHANNEL == 'dirty'
-  abort "#{CHANNEL} not a channel branch (alpha/beta/master)" unless %w(alpha beta master).include?(CHANNEL)
+  abort "#{CHANNEL} not a channel branch (beta/master)" unless %w(beta master).include?(CHANNEL)
   puts "Releasing #{LABEL}..."
   cache_control = "public,max-age=31536000"
   TARGETS.each do |target|
