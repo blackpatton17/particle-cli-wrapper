@@ -21,7 +21,7 @@ let s3client   = require('s3').createClient({
 
 // CHANGE THESE ONLY AND RUN SCRIPT
 // ==========================
-const version = '10.15.1';
+const version = '8.15.0';
 const npmVersion = '6.4.1';
 // ==========================
 
