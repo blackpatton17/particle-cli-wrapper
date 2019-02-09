@@ -17,6 +17,7 @@ func SetupNode() {
 func setupNode() {
 	Err("particle: Adding dependencies...")
 	PrintError(gode.Setup(), true)
+	PrintError(gode.RebuildPackages(), true)
 	Errln(" done")
 }
 
