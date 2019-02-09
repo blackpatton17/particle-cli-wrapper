@@ -151,10 +151,11 @@ func downloadNpm(npmPath string) error {
 		return err
 	}
 	os.RemoveAll(filepath.Join(modulesDir, "npm"))
-	os.Rename(filepath.Join(tmpDir, "npm-"+NpmVersion), filepath.Join(modulesDir, "npm"))
+	os.Rename(filepath.Join(tmpDir, "cli-"+NpmVersion), filepath.Join(modulesDir, "npm"))
 	if err != nil {
 		return err
 	}
+
 	return os.RemoveAll(tmpDir)
 }
 
