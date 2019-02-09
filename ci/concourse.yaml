@@ -2,7 +2,19 @@
 # TODO: also build the particle-cli-wrapper
 #
 # Update with
-# fly -t production set-pipeline -c concourse.yaml -p windows-cli-installer
+# fly -t production set-pipeline -c concourse.yaml -p particle-cli
+
+groups:
+  - name: windows-cli-installer
+    resources:
+      - source-code
+      - installer-dev-exe
+      - drivers-dev-exe
+      - installer-exe
+      - drivers-exe
+    jobs:
+      - build-installer
+      - release-installer
 
 resources:
   - name: source-code
