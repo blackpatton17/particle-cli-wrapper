@@ -44,6 +44,16 @@ func InstallPackages(packages ...string) error {
 	return nil
 }
 
+// RebuildPackages rebuilds installed npm packages.
+func RebuildPackages() error {
+	args := append([]string{"rebuild"})
+	_, stderr, err := execNpm(args...)
+	if err != nil {
+		return errors.New("Error rebuilding packages. \n" + stderr + "\nTry running again with GODE_DEBUG=info to see more output.")
+	}
+	return nil
+}
+
 // RemovePackages removes a npm packages.
 func RemovePackages(packages ...string) error {
 	args := append([]string{"remove"}, packages...)
