@@ -45,6 +45,23 @@ See the [Mac and Linux installer README](/installer/unix/README.md) and [Windows
 
 See [RELEASE.md](RELEASE.md)
 
+## Validations
+
+Before releasing a new version to particle-cli-wrapper, perform these validation steps:
+
+- Update the `beta` branch to the git commit to test
+- Run the steps in `RELEASE.md` to publish a beta release
+
+On Windows, Linux and macOS, run the following tests:
+- Download the new particle-cli-wrapper
+- Take a backup of the Node runtime `node-v*` and `node_modules` in `~/.particle` or `C:\Users\<username>\AppData\Local\particle`
+- On a machine that ran the previous version of particle-cli-wrapper more than 4 hours ago (this is determined by the modification time of the `autoupdate` file), run the new particle-cli-wrapper. Expect the update to run in the background (confirm with `ps` or Task Manager). After the update is finished, `particle serial list` should work.
+- Restore the copy of `node-v*` and `node_modules`. Run the old particle-cli-wrapper. Run the new particle-cli-wrapper. Expect a fast output since no update should happen immediately. `particle serial list` should work.
+- Delete `node-v*` and `node_modules` to simulate a fresh install. Run the new particle-cli-wrapper. Expect a long wait. After the install, `particle serial list` should work.
+- Restore the copy of `node-v*` and `node_modules`. Run the old particle-cli-wrapper. Run `particle update-cli` with the new particle-cli-wrapper. After the update, `particle serial list` should work.
+
+_Note: the behavior of `particle serial list` is to show the Particle devices connected to the USB port. Even when no device is connected, the message should be `No devices available via serial`._
+
 ## Updating version of Node
 
 - Update the version of Node and npm in [`set-node-version`](set-node-version)

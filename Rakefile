@@ -1,5 +1,4 @@
-# TODO: create install script for OSX and Linux
-# echo '{"hostname":"test","domainname":"example.com"}' | python -c 'import json,sys;obj=json.load(sys.stdin);print obj[0]["hostname"]'
+# Build particle-cli-wrapper and upload the binaries and JSON manifest to S3
 
 require 'digest'
 require 'aws-sdk-s3'
