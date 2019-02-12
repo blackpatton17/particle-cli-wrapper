@@ -1,6 +1,5 @@
 # UNIX Particle CLI Installer
 
-
 For UNIX systems (Mac and Linux), the installer is a shell script.
 
 It downloads the CLI wrapper, puts it in `~/bin` and makes it executable.
@@ -13,3 +12,7 @@ This CLI installer is documented to be used as:
 bash <( curl -sL https://particle.io/install-cli )
 ```
 
+To use the beta version, run:
+```
+CHANNEL=beta bash <( curl -sL https://particle.io/install-cli )
+```

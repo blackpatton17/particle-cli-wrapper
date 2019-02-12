@@ -26,6 +26,10 @@ func (t *Target) npmPath() string {
 	return npmPathFromBase(t.basePath())
 }
 
+func (t *Target) libModulesPath() string {
+	return libModulesPathFromBase(t.basePath())
+}
+
 func (t *Target) isSetup() (bool, error) {
 	return isSetup(t.nodePath(), t.npmPath())
 }
@@ -40,7 +44,7 @@ func (t *Target) setup() error {
 			return err
 		}
 	}
-	return downloadNpm(t.npmPath())
+	return downloadNpm(t.libModulesPath())
 }
 
 func (t *Target) clearOldNodeInstalls() error {

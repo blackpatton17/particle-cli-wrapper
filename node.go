@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/spark/particle-cli-wrapper/gode"
+	"github.com/particle-iot/particle-cli-wrapper/gode"
 )
 
 // SetupNode sets up node and npm in ~/.particle
@@ -17,6 +17,7 @@ func SetupNode() {
 func setupNode() {
 	Err("particle: Adding dependencies...")
 	PrintError(gode.Setup(), true)
+	PrintError(gode.RebuildPackages(), true)
 	Errln(" done")
 }
 

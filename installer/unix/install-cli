@@ -9,11 +9,14 @@
 # actual Particle CLI logic to ~/.particle/node_modules.
 # When a new version of the particle-cli is released, the binary wrapper
 # will update to the latest version in the background.
+#
+# Run CHANNEL=beta ./install-cli to use the beta version
 
+CHANNEL=${CHANNEL:-master}
 BINARY="particle"
 DEST_PATH="$HOME/bin"
 DEST="$DEST_PATH/$BINARY"
-MANIFEST_URL="https://binaries.particle.io/cli/master/manifest.json"
+MANIFEST_URL="https://binaries.particle.io/cli/${CHANNEL}/manifest.json"
 SHELL_CONFIG="$HOME/.bash_profile"
 
 # Compute OS and architecture

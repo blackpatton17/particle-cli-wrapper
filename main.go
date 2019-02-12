@@ -8,12 +8,12 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/stvp/rollbar"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/stvp/rollbar"
 )
 
 // Version is the version of the CLI.
 // This is set by a build flag in the `Rakefile`.
-var Version = "dev"
+var Version = "alpha"
 
 // Channel is the git branch the code was compiled on.
 // This is set by a build flag in the `Rakefile` based on the git branch.

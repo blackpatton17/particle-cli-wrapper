@@ -1,8 +1,7 @@
-# TODO: create install script for OSX and Linux
-# echo '{"hostname":"test","domainname":"example.com"}' | python -c 'import json,sys;obj=json.load(sys.stdin);print obj[0]["hostname"]'
+# Build particle-cli-wrapper and upload the binaries and JSON manifest to S3
 
 require 'digest'
-require 'aws-sdk'
+require 'aws-sdk-s3'
 require 'json'
 
 PRODUCT_NAME = 'cli'
@@ -16,7 +15,6 @@ TARGETS = [
   {os: 'darwin', arch: 'amd64'},
   {os: 'linux', arch: 'arm', goarm: '6'},
   {os: 'linux', arch: 'amd64'},
-  {os: 'linux', arch: '386', go386: '387'},
 ]
 
 VERSION = `./version`.chomp
@@ -46,7 +44,7 @@ end
 desc "release particle-cli-wrapper"
 task :release => :build do
   abort 'branch is dirty' if CHANNEL == 'dirty'
-  abort "#{CHANNEL} not a channel branch (dev/beta/master)" unless %w(dev beta master).include?(CHANNEL)
+  abort "#{CHANNEL} not a channel branch (beta/master)" unless %w(beta master).include?(CHANNEL)
   puts "Releasing #{LABEL}..."
   cache_control = "public,max-age=31536000"
   TARGETS.each do |target|
@@ -58,7 +56,6 @@ task :release => :build do
     upload(sha_digest(from), to + ".sha1", content_type: 'text/plain', cache_control: cache_control)
   end
   upload_manifest()
-  notify_rollbar
   puts "Released #{VERSION}"
 end
 
@@ -87,7 +84,7 @@ def build(target)
   #  -out #{path} > /dev/null"
   #  unless ok
   #    $stderr.puts "Unable to sign Windows binaries, please follow the full release instructions"
-  #    $stderr.puts "https://github.com/spark/particle-cli-wrapper/blob/master/RELEASE-FULL.md#windows-release"
+  #    $stderr.puts "https://github.com/particle-iot/particle-cli-wrapper/blob/master/RELEASE-FULL.md#windows-release"
   #    exit 2
   #  end
   #end
@@ -155,16 +152,4 @@ end
 def upload_manifest
   puts 'uploading manifest...'
   upload(JSON.dump(manifest), "#{PRODUCT_NAME}/#{CHANNEL}/manifest.json", content_type: 'application/json', cache_control: "public,max-age=60")
-end
-
-def notify_rollbar
-  unless ENV['ROLLBAR_TOKEN']
-    $stderr.puts 'ROLLBAR_TOKEN not set, skipping rollbar deploy notification'
-    return
-  end
-  Net::HTTP.post_form(URI.parse('https://api.rollbar.com/api/1/deploy/'),
-                      environment: CHANNEL,
-                      local_username: `whoami`.chomp,
-                      revision: REVISION,
-                      access_token: ENV['ROLLBAR_TOKEN'])
 end

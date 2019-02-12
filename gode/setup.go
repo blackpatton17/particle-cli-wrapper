@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
 )
 
 var errInvalidSha = errors.New("Invalid SHA")
@@ -137,9 +137,8 @@ func downloadFile(path, url, sha string) error {
 	return os.RemoveAll(filepath.Dir(tmp))
 }
 
-func downloadNpm(npmPath string) error {
-	modulesDir := filepath.Dir(filepath.Dir(npmPath))
-	os.MkdirAll(modulesDir, 0755)
+func downloadNpm(libModulesPath string) error {
+	os.MkdirAll(libModulesPath, 0755)
 	tmpDir := tmpDir("node")
 	zipfile := filepath.Join(tmpDir, "npm.zip")
 	err := downloadFile(zipfile, npmURL, npmSha)
@@ -150,11 +149,12 @@ func downloadNpm(npmPath string) error {
 	if err != nil {
 		return err
 	}
-	os.RemoveAll(filepath.Join(modulesDir, "npm"))
-	os.Rename(filepath.Join(tmpDir, "npm-"+NpmVersion), filepath.Join(modulesDir, "npm"))
+	os.RemoveAll(filepath.Join(libModulesPath, "npm"))
+	os.Rename(filepath.Join(tmpDir, "cli-"+NpmVersion), filepath.Join(libModulesPath, "npm"))
 	if err != nil {
 		return err
 	}
+
 	return os.RemoveAll(tmpDir)
 }
 
