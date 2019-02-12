@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.0] - 2019-02-12
+
+- Update Node to 8.15.0 and rebuild Node modules after upgrade
+
 ## [0.2.0] - 2016-11-17
 
 - Fix autoupdate logic
