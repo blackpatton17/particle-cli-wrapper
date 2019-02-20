@@ -67,9 +67,9 @@ func RemovePackages(packages ...string) error {
 // OutdatedPackages returns a map of packages and their latest version
 func OutdatedPackages(names ...string) (map[string]string, error) {
 	args := append([]string{"outdated", "--json"}, names...)
-	stdout, stderr, _ := execNpm(args...)
+	stdout, stderr, err := execNpm(args...)
 	// Check stderr since npm outdated returns exit code 1 when there are outdated packages
-	if len(stderr) > 0 {
+	if err != nil && len(stderr) > 0 {
 		return nil, errors.New(stderr)
 	}
 	var outdated map[string]struct{ Latest string }
