@@ -261,7 +261,7 @@ Function InstallDrivers
 runDriversInstaller:
 	DetailPrint "Installing USB drivers"
 	# Install drivers in silent mode
-	nsExec::ExecToLog "$TEMP/${DriversFile} /S"
+	ExecShell "" "$TEMP\${DriversFile}" "/S"
 FunctionEnd
 
 Function .onInstFailed
