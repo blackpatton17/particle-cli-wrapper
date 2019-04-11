@@ -21,6 +21,10 @@ InstallDir "$LOCALAPPDATA\particle"
 ; File with latest CLI build
 !define ManifestURL "https://binaries.particle.io/cli/master/manifest.json"
 
+; Drivers installer
+!define DriversURL "https://binaries.particle.io/drivers/windows/particle_drivers.exe"
+!define DriversFile "particle_drivers.exe"
+
 ; OpenSSL installer
 !define OpenSSLURL "https://binaries.particle.io/cli/installer/windows/Win32OpenSSL_Light-1_1_0d.exe"
 !define OpenSSLFile "Win32OpenSSL_Light-1_1_0d.exe"
@@ -226,7 +230,6 @@ FunctionEnd
 
 Function InstallOpenSSL
 	DetailPrint "Downloading OpenSSL"
-	GetTempFileName "$ManifestFile"
 	inetc::get /RESUME "" /CAPTION "Downloading OpenSSL" "${OpenSSLURL}" "$TEMP/${OpenSSLFile}" /END
 	Pop $0
 	StrCmp $0 "OK" runOpenSSLInstaller
@@ -250,10 +253,15 @@ Function AddCLIToPath
 FunctionEnd
 
 Function InstallDrivers
-	File "/oname=$TEMP\ParticleDriversSetup.exe" "ParticleDriversSetup.exe"
+	DetailPrint "Downloading USB drivers"
+	inetc::get /RESUME "" /CAPTION "Downloading USB drivers" "${DriversURL}" "$TEMP/${DriversFile}" /END
+	Pop $0
+	StrCmp $0 "OK" runDriversInstaller
+	Abort
+runDriversInstaller:
 	DetailPrint "Installing USB drivers"
 	# Install drivers in silent mode
-	ExecShell "" "$TEMP\ParticleDriversSetup.exe" "/S"
+	nsExec::ExecToLog "$TEMP/${DriversFile} /S"
 FunctionEnd
 
 Function .onInstFailed
