@@ -1,5 +1,4 @@
 # Concourse pipeline to build the Windows CLI installer
-# TODO: also build the particle-cli-wrapper
 #
 # Update with
 # fly -t production set-pipeline -c concourse.yaml -p particle-cli
@@ -9,9 +8,7 @@ groups:
     resources:
       - source-code
       - installer-dev-exe
-      - drivers-dev-exe
       - installer-exe
-      - drivers-exe
     jobs:
       - build-installer
       - release-installer
@@ -32,15 +29,6 @@ resources:
       region_name: us-east-1
       versioned_file: cli/installer/windows/ParticleCLISetup-dev.exe
 
-  - name: drivers-dev-exe
-    type: s3
-    source:
-      bucket: binaries.particle.io
-      access_key_id: ((aws-credentials-3-binaries-particle-io.key))
-      secret_access_key: ((aws-credentials-3-binaries-particle-io.secret))
-      region_name: us-east-1
-      versioned_file: cli/installer/windows/ParticleDriversSetup-dev.exe
-
   - name: installer-exe
     type: s3
     source:
@@ -50,15 +38,6 @@ resources:
       region_name: us-east-1
       versioned_file: cli/installer/windows/ParticleCLISetup.exe
   
-  - name: drivers-exe
-    type: s3
-    source:
-      bucket: binaries.particle.io
-      access_key_id: ((aws-credentials-3-binaries-particle-io.key))
-      secret_access_key: ((aws-credentials-3-binaries-particle-io.secret))
-      region_name: us-east-1
-      versioned_file: cli/installer/windows/ParticleDriversSetup.exe
-
 jobs:
   - name: build-installer
     serial: true
@@ -77,13 +56,9 @@ jobs:
         params:
           encryption_secret: ((windows-code-signing-certificate.encryption_secret))
           key_secret: ((windows-code-signing-certificate.key_secret))
-      - aggregate:
-        - put: installer-dev-exe
-          params:
-            file: installer-build/ParticleCLISetup.exe
-        - put: drivers-dev-exe
-          params:
-            file: installer-build/ParticleDriversSetup.exe
+      - put: installer-dev-exe
+        params:
+          file: installer-build/ParticleCLISetup.exe
 
   - name: release-installer
     plan:
@@ -92,14 +67,6 @@ jobs:
         trigger: false
         passed:
           - build-installer
-      - get: drivers-dev-exe
-        trigger: false
-        passed:
-          - build-installer
-      - aggregate:
-        - put: installer-exe
-          params:
-            file: installer-dev-exe/ParticleCLISetup-dev.exe
-        - put: drivers-exe
-          params:
-            file: drivers-dev-exe/ParticleDriversSetup-dev.exe
+      - put: installer-exe
+        params:
+          file: installer-dev-exe/ParticleCLISetup-dev.exe
