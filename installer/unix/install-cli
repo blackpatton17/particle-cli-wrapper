@@ -19,6 +19,11 @@ DEST="$DEST_PATH/$BINARY"
 MANIFEST_URL="https://binaries.particle.io/cli/${CHANNEL}/manifest.json"
 SHELL_CONFIG="$HOME/.bash_profile"
 
+# setup for zsh if that's the prefered shell
+if [ -n "$($SHELL -c 'echo $ZSH_VERSION')" ]; then
+   SHELL_CONFIG="$HOME/.zprofile"
+fi
+
 # Compute OS and architecture
 UNAME=$(uname -s)
 case $UNAME in
