@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"time"
+	"strings"
 
 	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
 	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
@@ -89,7 +90,7 @@ func updatePlugins() {
 }
 
 func updateCLI(channel string) {
-	if channel == "?" {
+	if (channel == "?" || strings.HasPrefix(channel, "-")) {
 		// do not update dev version
 		return
 	}
