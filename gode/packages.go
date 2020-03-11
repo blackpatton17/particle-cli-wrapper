@@ -104,7 +104,7 @@ func npmCmd(args ...string) (*exec.Cmd, error) {
 	if err != nil {
 		return nil, err
 	}
-	args = append([]string{npmPath}, args...)
+	args = append([]string{npmPath, "--scripts-prepend-node-path=true"}, args...)
 	if debugging() {
 		args = append(args, "--loglevel="+os.Getenv("GODE_DEBUG"))
 	}
