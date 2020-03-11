@@ -49,8 +49,12 @@ You'll need to compile the tarball from nodejs.org and place it in ~/.particle/n
 	if err := t.setup(); err != nil {
 		return err
 	}
+	if err := t.clearOldNodeInstalls(); err != nil {
+		return err
+	}
+
 	SetRootPath(rootPath) // essentially sets this node as the current one
-	return t.clearOldNodeInstalls()
+	return nil
 }
 
 // NeedsUpdate returns true if it is using a node that isn't the latest version
