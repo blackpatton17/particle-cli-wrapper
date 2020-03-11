@@ -36,7 +36,7 @@ func Packages() ([]Package, error) {
 
 // InstallPackages installs a npm packages.
 func InstallPackages(packages ...string) error {
-	args := append([]string{"install"}, packages...)
+	args := append([]string{"install", "--force"}, packages...)
 	_, stderr, err := execNpm(args...)
 	if err != nil {
 		return errors.New("Error installing package. \n" + stderr + "\nTry running again with GODE_DEBUG=info to see more output.")
