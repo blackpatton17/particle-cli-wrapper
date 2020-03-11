@@ -134,12 +134,12 @@ func execNpm(args ...string) (string, string, error) {
 func environ() []string {
 	env, path := environPath()
 	env = append(env, "PATH="+prependPathToList(filepath.Dir(nodePath), path))
-	env = append(env, "NPM_CONFIG_ALWAYS_AUTH=false")
-	env = append(env, "NPM_CONFIG_CACHE="+filepath.Join(rootPath, ".npm-cache"))
-	env = append(env, "NPM_CONFIG_REGISTRY="+registry)
-	env = append(env, "NPM_CONFIG_GLOBAL=false")
-	env = append(env, "NPM_CONFIG_ONLOAD_SCRIPT=false")
-	env = append(env, "NPM_CONFIG_AUDIT=false")
+	env = append(env, "npm_config_always_auth=false")
+	env = append(env, "npm_config_cache="+filepath.Join(rootPath, ".npm-cache"))
+	env = append(env, "npm_config_registry="+registry)
+	env = append(env, "npm_config_global=false")
+	env = append(env, "npm_config_onload_script=false")
+	env = append(env, "npm_config_audit=false")
 	return env
 }
 
