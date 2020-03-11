@@ -22,8 +22,8 @@ let s3client   = require('s3').createClient({
 // CHANGE THESE ONLY AND RUN SCRIPT
 // See https://nodejs.org/en/download/releases/ for valid values
 // ==========================
-const version = '8.15.0';
-const npmVersion = '6.4.1';
+const version = '12.16.1';
+const npmVersion = '6.13.7';
 // ==========================
 
 const outputPath = '/./gode/constants.go';
