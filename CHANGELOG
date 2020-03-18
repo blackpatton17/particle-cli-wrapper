@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.0] - 2020-03-18
+
+- Fix `upate-cli` command's native module handling
+- Update backing Node.js version to `v12`
+
 ## [1.0.1] - 2019-02-19
 
 - Fix autoupdate logic by ignoring exit code of npm outdated
