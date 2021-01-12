@@ -19,10 +19,30 @@ DEST="$DEST_PATH/$BINARY"
 MANIFEST_URL="https://binaries.particle.io/cli/${CHANNEL}/manifest.json"
 SHELL_CONFIG="$HOME/.bash_profile"
 
-# setup for zsh if that's the prefered shell
-if [ -n "$($SHELL -c 'echo $ZSH_VERSION')" ]; then
-   SHELL_CONFIG="$HOME/.zprofile"
-fi
+echo
+echo 'PARTICLE CLI SETUP...'
+echo
+echo '                                   :                                    '
+echo '                                   :                                    '
+echo '                                  :::                                   '
+echo '                      :           :::           :                       '
+echo '                       :::        :::        :::                        '
+echo '                         ::::     :::     ::::                          '
+echo '                          ::::::       ::::::                           '
+echo '                           :::::::::::::::::                            '
+echo '                             :::::::::::::                              '
+echo '                    :::::::   :::::::::::   :::::::                     '
+echo '                    :::::::   :::::::::::   :::::::                     '
+echo '                             :::::::::::::                              '
+echo '                           ::::::::.::::::::                            '
+echo '                          ::::::       ::::::                           '
+echo '                         ::::     :::     ::::                          '
+echo '                       :::        :::        :::                        '
+echo '                      :           :::           :                       '
+echo '                                  :::                                   '
+echo '                                   :                                    '
+echo '                                                                        '
+
 
 # Compute OS and architecture
 UNAME=$(uname -s)
@@ -56,6 +76,16 @@ case $PROCESSOR in
         ;;
 esac
 
+# setup for legacy macOS bash
+if [ -e "$HOME/.profile" ] && [ "${OS}" == "darwin" ]; then
+   SHELL_CONFIG="$HOME/.profile"
+fi
+
+# setup for zsh if that's the prefered shell
+if [ -n "$($SHELL -c 'echo $ZSH_VERSION')" ]; then
+   SHELL_CONFIG="$HOME/.zprofile"
+fi
+
 function program_exists {
     hash "$1" 2> /dev/null
 }
@@ -72,7 +102,7 @@ else
 fi
 
 # Download JSON manifest with latest CLI binary
-echo "Installing the Particle CLI to $DEST"
+echo ":::: Installing the Particle CLI for $OS to \"$DEST\""
 
 BINARY_URL=$(curl -s $MANIFEST_URL | $PYTHON -c "import sys, json; print(json.load(sys.stdin)['builds']['$OS']['$ARCH']['url'])")
 
@@ -87,35 +117,40 @@ fi
 
 chmod +x "$DEST"
 
-# Install dependencies
+# Run binary for the first time to make it install Node and the
+# particle-cli npm module
+"$DEST" > /dev/null 2>&1
 
+echo ':::: Done!'
+echo ':::: Installing dependencies'
+
+# Install dependencies
 function install_program {
     prog="$1"
 
     if ! program_exists "$prog"; then
         if [ "$OS" = "linux" ]; then
             if program_exists "apt-get"; then
-                echo "Installing dependency $prog"
+                echo ":::: Installing dependency $prog"
                 sudo apt-get install -y "$prog"
                 return
             fi
         else
             if program_exists "brew"; then
-                echo "Installing dependency $prog"
+                echo ":::: Installing dependency $prog"
                 brew install "$prog"
                 return
             fi
         fi
-        echo "The Particle CLI uses $prog. Install it for your OS"
+        echo ":::: The Particle CLI uses $prog. Install it for your OS"
     fi
 }
 
 install_program "dfu-util"
 install_program "openssl"
 
-# Run binary for the first time to make it install Node and the
-# particle-cli npm module
-"$DEST"
+echo ':::: Done!'
+
 
 # Add ~/bin to the path
 function file_contains {
@@ -125,13 +160,20 @@ function file_contains {
 if ! file_contains "$SHELL_CONFIG" "\$HOME/bin"; then
     cat >> "$SHELL_CONFIG" <<EOL
 
-# set PATH so it includes user's private bin if it exists
+# set PATH so it includes user's private Particle CLI bin if it exists
 if [ -d "\$HOME/bin" ] ; then
     PATH="\$HOME/bin:\$PATH"
 fi
 EOL
 fi
 
-echo "Get started by running \"$BINARY login\""
-echo "If that doesn't work, open a new terminal and make sure $DEST_PATH is in your shell path."
-echo "If you previously installed the CLI with npm, run \"npm uninstall -g particle-cli\""
+echo ":::: Success!"
+echo ":::: The Particle CLI has been installed to: \"$DEST_PATH\""
+echo ":::: Your \"$SHELL_CONFIG\" file has been updated to properly set \$PATH"
+echo ":::: If you previously installed the CLI with npm, run \"npm uninstall -g particle-cli\""
+echo
+echo '************************************************************************'
+echo '** YOU MUST CLOSE AND REOPEN YOUR TERMINAL BEFORE CHANGES TAKE EFFECT **'
+echo '************************************************************************'
+echo
+
