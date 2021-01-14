@@ -160,7 +160,8 @@ function file_contains {
 if ! file_contains "$SHELL_CONFIG" "\$HOME/bin"; then
     cat >> "$SHELL_CONFIG" <<EOL
 
-# set PATH so it includes user's private Particle CLI bin if it exists
+# added by Particle CLI
+# add home bin directory to PATH if it exists
 if [ -d "\$HOME/bin" ] ; then
     PATH="\$HOME/bin:\$PATH"
 fi
@@ -176,4 +177,3 @@ echo '************************************************************************'
 echo '** YOU MUST CLOSE AND REOPEN YOUR TERMINAL BEFORE CHANGES TAKE EFFECT **'
 echo '************************************************************************'
 echo
-
