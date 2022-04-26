@@ -22,27 +22,6 @@ SHELL_CONFIG="$HOME/.bash_profile"
 echo
 echo 'PARTICLE CLI SETUP...'
 echo
-echo '                                   :                                    '
-echo '                                   :                                    '
-echo '                                  :::                                   '
-echo '                      :           :::           :                       '
-echo '                       :::        :::        :::                        '
-echo '                         ::::     :::     ::::                          '
-echo '                          ::::::       ::::::                           '
-echo '                           :::::::::::::::::                            '
-echo '                             :::::::::::::                              '
-echo '                    :::::::   :::::::::::   :::::::                     '
-echo '                    :::::::   :::::::::::   :::::::                     '
-echo '                             :::::::::::::                              '
-echo '                           ::::::::.::::::::                            '
-echo '                          ::::::       ::::::                           '
-echo '                         ::::     :::     ::::                          '
-echo '                       :::        :::        :::                        '
-echo '                      :           :::           :                       '
-echo '                                  :::                                   '
-echo '                                   :                                    '
-echo '                                                                        '
-
 
 # Compute OS and architecture
 UNAME=$(uname -s)
