@@ -9,7 +9,7 @@
 :: - installer-build\ParticleDriversSetup.exe
 :: - installer-build\ParticleCLISetup.exe
 pushd "%~dp0"
-call decrypt_code_signing_cert.cmd || goto :error
+call extract_code_signing_cert.cmd || goto :error
 "C:\Program Files (x86)\NSIS\makensis.exe" ParticleCLISetup.nsi || goto :error
 popd
 
