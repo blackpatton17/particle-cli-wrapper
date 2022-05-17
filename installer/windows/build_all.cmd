@@ -12,9 +12,9 @@ pushd "%~dp0"
 
 call decrypt_code_signing_cert.cmd || goto :error
 
-PowerShell "Install-Package NSIS-Tool -Version 3.0.8" || goto :error
+nuget install NSIS-Tool -Version 3.0.8 || goto :error
 
-dir "C:\Program Files (x86)"
+dir "NSIS-Tool.3.0.8"
 
 "C:\Program Files (x86)\NSIS\makensis.exe" ParticleCLISetup.nsi || goto :error
 popd
