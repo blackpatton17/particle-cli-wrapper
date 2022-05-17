@@ -1,7 +1,7 @@
 :: Builds the Particle CLI installer and driver installer
 ::
 :: Requirements:
-:: - Nullsoft Scriptable Installer System version 3 must be installed (3.03 installed on Concourse)
+:: - NuGet must be installed since it is used to install NSIS
 :: - encryption_secret environment variable must be set to decrypt the p12.enc code signing certificate
 :: - key_secret environment variable must be set to use the p12 code signing certificate to sign the final executable
 ::
@@ -12,7 +12,9 @@ pushd "%~dp0"
 
 call decrypt_code_signing_cert.cmd || goto :error
 
-PowerShell .\install_nsis.ps1 || goto :error
+PowerShell "Install-Package NSIS-Tool -Version 3.0.8" || goto :error
+
+dir "C:\Program Files (x86)"
 
 "C:\Program Files (x86)\NSIS\makensis.exe" ParticleCLISetup.nsi || goto :error
 popd
