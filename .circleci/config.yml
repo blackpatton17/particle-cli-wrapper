@@ -1,0 +1,23 @@
+version: 2.1
+
+orbs:
+  win: circleci/windows@4.1.1
+
+jobs:
+  build-windows-installer:
+    executor: win/default
+    steps:
+      - checkout
+      - run:
+          name: Build installer
+          command: installer\windows\build_all.cmd
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build-windows-installer:
+          context:
+            - particle-ci-private
+
+
