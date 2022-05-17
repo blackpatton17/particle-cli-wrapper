@@ -11,6 +11,9 @@ jobs:
       - run:
           name: Build installer
           command: installer\windows\build_all.cmd
+      - store_artifacts:
+          path: installer\windows\ParticleCLISetup.exe
+          destination: ParticleCLISetup.exe
 
 workflows:
   version: 2
