@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@4.1.1
+  aws-s3: circleci/aws-s3@2.0.0
 
 jobs:
   build-windows-installer:
@@ -11,14 +12,35 @@ jobs:
       - run:
           name: Build installer
           command: installer\windows\build_all.cmd
+      # Save output on CircleCI in the Artifacts tab
       - store_artifacts:
           path: installer\windows\ParticleCLISetup.exe
           destination: ParticleCLISetup.exe
+      # Save output so it can be copied to S3 in the next step
+      - persist_to_workspace:
+          root: .
+          paths:
+            - installer\windows\ParticleCLISetup.exe
+
+  upload-installer-s3-dev:
+    docker:
+      - image: 'cimg/python:3.6'
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-s3/copy:
+          arguments: |
+            --acl public-read \
+            --cache-control "public,max-age=60"
+          from: installer/windows/ParticleCLISetup.exe
+          to: 's3://binaries.particle.io/cli/installer/windows/ParticleCLISetup-dev.exe'
 
 workflows:
   version: 2
   build:
     jobs:
       - build-windows-installer
-
+      - upload-installer-s3-dev:
+          requires:
+            - build-windows-installer
 
