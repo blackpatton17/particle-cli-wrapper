@@ -3,8 +3,8 @@ if [%1] == [] goto noexec
 if ["%key_secret%"] == [""] goto nokey
 if [%SIGNTOOL_PATH%] == [] set "SIGNTOOL_PATH=%~dp0"
 
-echo "%SIGNTOOL_PATH%\signtool.exe" sign /v /f particle-code-signing-cert.p12 /p "%%key_secret%%" /tr http://tsa.starfieldtech.com %1
-"%SIGNTOOL_PATH%\signtool.exe" sign /v /f particle-code-signing-cert.p12 /p "%key_secret%" /tr http://tsa.starfieldtech.com %1
+echo "%SIGNTOOL_PATH%\signtool.exe" sign /v /f particle-code-signing-cert.p12 /p "%%WINDOWS_CODE_SIGNING_CERT_PASSWORD%%" /tr http://tsa.starfieldtech.com %1
+"%SIGNTOOL_PATH%\signtool.exe" sign /v /f particle-code-signing-cert.p12 /p "%WINDOWS_CODE_SIGNING_CERT_PASSWORD%" /tr http://tsa.starfieldtech.com %1
 goto done
 
 :nokey
