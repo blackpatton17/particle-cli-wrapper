@@ -55,6 +55,15 @@ case $PROCESSOR in
         ;;
 esac
 
+# warn and exit if we're running on an Appple M1 processor
+if [ "$OS" = "darwin" ] && [ "$ARCH" == "arm" ]; then
+    echo "Apple M1 processor detected!"
+    echo "Particle CLI must be run under Rosetta"
+    echo "To enable Rosetta, see:"
+    echo "https://community.particle.io/t/apple-m1-support/59403/3"
+    exit 1
+fi
+
 # setup for legacy macOS bash
 if [ -e "$HOME/.profile" ] && [ "${OS}" == "darwin" ]; then
    SHELL_CONFIG="$HOME/.profile"
