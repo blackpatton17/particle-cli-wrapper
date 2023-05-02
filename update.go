@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crypto/sha1"
+	"crypto/sha256"
 	"errors"
 	"fmt"
 	"io"
@@ -118,7 +118,7 @@ func updateCLI(channel string) {
 	if err := downloadBin(binPath+".new", build.URL); err != nil {
 		panic(err)
 	}
-	if fileSha1(binPath+".new") != build.Sha1 {
+	if fileSha256(binPath+".new") != build.Sha256 {
 		panic("SHA mismatch")
 	}
 	os.Remove(binPath + ".old")
@@ -167,7 +167,7 @@ func clearAutoupdateFile() {
 type manifest struct {
 	Channel, Version string
 	Builds           map[string]map[string]struct {
-		URL, Sha1 string
+		URL, Sha256 string
 	}
 }
 
@@ -206,12 +206,12 @@ func downloadBin(path, url string) error {
 	return err
 }
 
-func fileSha1(path string) string {
+func fileSha256(path string) string {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}
-	return fmt.Sprintf("%x", sha1.Sum(data))
+	return fmt.Sprintf("%x", sha256.Sum256(data))
 }
 
 // TriggerBackgroundUpdate will trigger an update to the client in the background

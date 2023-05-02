@@ -93,16 +93,21 @@ fi
 echo ":::: Installing the Particle CLI for $OS to \"$DEST\""
 
 BINARY_URL=$(curl -s $MANIFEST_URL | $PYTHON -c "import sys, json; print(json.load(sys.stdin)['builds']['$OS']['$ARCH']['url'])")
+BINARY_SHA256=$(curl -s $MANIFEST_URL | $PYTHON -c "import sys, json; print(json.load(sys.stdin)['builds']['$OS']['$ARCH']['sha256'])")
 
-# Download binary
+# Download and validate binary
 mkdir -p "$DEST_PATH"
+TMP_FILE=$(mktemp)
 
-if [ -z "$LOCAL_BINARY" ]; then
-    curl -s "$BINARY_URL.gz" | gunzip > "$DEST"
-else
-    cp "$LOCAL_BINARY" "$DEST"
+curl -s "$BINARY_URL.gz" | gunzip > "$TMP_FILE"
+
+echo "$BINARY_SHA256  $TMP_FILE" | sha256sum -c > /dev/null 2>&1
+if [ $? -eq 1 ]; then
+   echo ':::: Checksum check failed! Aborting installation'
+   exit 1
 fi
 
+mv -f "$TMP_FILE" "$DEST"
 chmod +x "$DEST"
 
 # Run binary for the first time to make it install Node and the

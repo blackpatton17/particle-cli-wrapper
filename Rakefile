@@ -54,6 +54,7 @@ task :release => :build do
     upload_file(from, to, content_type: 'binary/octet-stream', cache_control: cache_control)
     upload_file(from + '.gz', to + '.gz', content_type: 'binary/octet-stream', content_encoding: 'gzip', cache_control: cache_control)
     upload(sha_digest(from), to + ".sha1", content_type: 'text/plain', cache_control: cache_control)
+    upload(sha256_digest(from), to + ".sha256", content_type: 'text/plain', cache_control: cache_control)
   end
   upload_manifest()
   puts "Released #{VERSION}"
@@ -99,6 +100,10 @@ def sha_digest(path)
   Digest::SHA1.file(path).hexdigest
 end
 
+def sha256_digest(path)
+  Digest::SHA256.file(path).hexdigest
+end
+
 def local_path(os, arch)
   ext = ".exe" if os === 'windows'
   "./dist/#{os}/#{arch}/#{BINARY_NAME}#{ext}"
@@ -125,7 +130,8 @@ def manifest
     @manifest[:builds][target[:os]] ||= {}
     @manifest[:builds][target[:os]][target[:arch]] = {
       url: remote_url(target[:os], target[:arch]),
-      sha1: sha_digest(local_path(target[:os], target[:arch]))
+      sha1: sha_digest(local_path(target[:os], target[:arch])),
+      sha256: sha256_digest(local_path(target[:os], target[:arch])),
     }
   end
 
