@@ -7,18 +7,18 @@ package gode
 //
 
 // Version is the requested node version
-const Version = "12.16.1"
+const Version = "16.20.0"
 
 // NpmVersion is the requested npm version
-const NpmVersion = "6.13.7"
+const NpmVersion = "8.19.4"
 
-const npmSha = "8b4af16d3b42cd8a3faaa6d87b20eae1f878863d30e2991989f3f42c9898b441"
-const npmURL = "https://binaries.particle.io/npm/v6.13.7.zip"
+const npmSha = "1af70b2cafbea9a24eed6ba62a11eebf5ff0a54b6176c22ac21b891b79bcc5ad"
+const npmURL = "https://binaries.particle.io/npm/v8.19.4.zip"
 
 var targets = []Target{
-	{"amd64", "linux", "https://binaries.particle.io/node/v12.16.1/node-v12.16.1-linux-x64.tar.gz", "node-v12.16.1-linux-x64", "b2d9787da97d6c0d5cbf24c69fdbbf376b19089f921432c5a61aa323bc070bea"},
-	{"arm", "linux", "https://binaries.particle.io/node/v12.16.1/node-v12.16.1-linux-armv7l.tar.gz", "node-v12.16.1-linux-armv7l", "d418d0516dfd744a8109e4ed58b021e3a1babb64baed2ebc30e613df97c643fb"},
-	{"amd64", "darwin", "https://binaries.particle.io/node/v12.16.1/node-v12.16.1-darwin-x64.tar.gz", "node-v12.16.1-darwin-x64", "34895bce210ca4b3cf19cd480e6563588880dd7f5d798f3782e3650580d35920"},
-	{"386", "windows", "https://binaries.particle.io/node/v12.16.1/win-x86/node.exe", "node-v12.16.1-windows-x86", "78fa91d73172df8e10e1824394087a9d6409259fdc3bd5a83fa90d53e4edb6a6"},
-	{"amd64", "windows", "https://binaries.particle.io/node/v12.16.1/win-x64/node.exe", "node-v12.16.1-windows-x64", "3f8dabbe93d05367035df2078cb72a20c1b74cf1b41648ea91d902825902fcee"},
+	{"amd64", "linux", "https://binaries.particle.io/node/v16.20.0/node-v16.20.0-linux-x64.tar.gz", "node-v16.20.0-linux-x64", "7abc0e558fa3b3c4cc0fd3c7fa5dbe61500ba7213f5e87ed560c65a733c6a5c4"},
+	{"arm", "linux", "https://binaries.particle.io/node/v16.20.0/node-v16.20.0-linux-armv7l.tar.gz", "node-v16.20.0-linux-armv7l", "01f71cca760c2e3ee0178c29dc7352a579f4a006ba8d628744dcd82b126b1fad"},
+	{"amd64", "darwin", "https://binaries.particle.io/node/v16.20.0/node-v16.20.0-darwin-x64.tar.gz", "node-v16.20.0-darwin-x64", "263d5b4871972028e204087fc8a67e21d8a0e2a420d1247375089ec8fd12759e"},
+	{"386", "windows", "https://binaries.particle.io/node/v16.20.0/win-x86/node.exe", "node-v16.20.0-windows-x86", "029343acebfbe9b9f858da0e68bc532878a8844a7f59e7451668059f72e49f0f"},
+	{"amd64", "windows", "https://binaries.particle.io/node/v16.20.0/win-x64/node.exe", "node-v16.20.0-windows-x64", "a49f9e852f80cfc00ddcd75dcfccbe2987672f78dcbf7f5454a832479c77f448"},
 }

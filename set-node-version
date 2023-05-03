@@ -26,8 +26,8 @@ const s3Client = new S3Client({ region: 'us-east-1' });
 // CHANGE THESE ONLY AND RUN SCRIPT
 // See https://nodejs.org/en/download/releases/ for valid values
 // ==========================
-const version = '12.16.1';
-const npmVersion = '6.13.7';
+const version = '16.20.0';
+const npmVersion = '8.19.4';
 // ==========================
 
 const outputPath = '/./gode/constants.go';
