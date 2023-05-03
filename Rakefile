@@ -6,7 +6,7 @@ require 'json'
 
 PRODUCT_NAME = 'cli'
 BINARY_NAME = 'particle'
-BUCKET_NAME = 'binaries.particle.io'
+BUCKET_NAME = 'mode-static-binaries-particle-io-20230314171309486000000003'
 ASSETS_HOST = 'binaries.particle.io'
 
 TARGETS = [
@@ -22,10 +22,6 @@ dirty = `git status 2> /dev/null | tail -n1`.chomp != 'nothing to commit, workin
 CHANNEL = dirty ? 'dirty' : `git rev-parse --abbrev-ref HEAD`.chomp
 LABEL = "particle-cli-wrapper/#{VERSION} (#{CHANNEL})"
 REVISION=`git log -n 1 --pretty=format:"%H"`
-
-task :sha do
-  puts sha_digest("dist/linux/amd64/particle")
-end
 
 task :manifest do
   puts JSON.dump(manifest)
@@ -139,7 +135,7 @@ def manifest
 end
 
 def s3_client
-  @s3_client ||= Aws::S3::Client.new(region: 'us-east-1', access_key_id: ENV['PARTICLE_CLI_RELEASE_ACCESS'], secret_access_key: ENV['PARTICLE_CLI_RELEASE_SECRET'])
+  @s3_client ||= Aws::S3::Client.new(region: 'us-east-1', access_key_id: ENV['PARTICLE_CLI_RELEASE_ACCESS'], secret_access_key: ENV['PARTICLE_CLI_RELEASE_SECRET'], session_token: ENV['PARTICLE_CLI_RELEASE_SESSION_TOKEN'])
 end
 
 def upload_file(local, remote, opts={})
