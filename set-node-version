@@ -1,23 +1,27 @@
 #!/usr/bin/env node
 /*
- * Install s3 with
- * npm install s3
+ * Run with Node 16
+ * nvm use 16
+ *
+ * Install @aws-sdk/client-s3 with
+ * npm install @aws-sdk/client-s3
+ *
+ * Log in to AWS with
+ * aws sso login
  */
 'use strict';
 
-let bucket = 'binaries.particle.io';
+let bucket = 'mode-static-binaries-particle-io-20230314171309486000000003';
 let assetsHost = 'binaries.particle.io';
 
 let crypto = require('crypto');
 let fs     = require('fs');
 let https  = require('https');
-let s3client   = require('s3').createClient({
-  s3Options: {
-    accessKeyId:     process.env.PARTICLE_CLI_RELEASE_ACCESS,
-    secretAccessKey: process.env.PARTICLE_CLI_RELEASE_SECRET,
-    region: 'us-east-1',
-  }
-});
+const {
+  S3Client,
+  PutObjectCommand
+} = require('@aws-sdk/client-s3');
+const s3Client = new S3Client({ region: 'us-east-1' });
 
 // CHANGE THESE ONLY AND RUN SCRIPT
 // See https://nodejs.org/en/download/releases/ for valid values
@@ -65,23 +69,17 @@ function download (url, path) {
 
 function s3upload (local, remote) {
   let key = remote.replace(`https://${assetsHost}/`, '');
-  return new Promise(function (fulfill, reject) {
-    const uploader = s3client.uploadFile({
-      localFile: local,
-      s3Params: {
-        Bucket: bucket,
-        Key: key,
-        Metadata: {
-          'x-amz-acl': 'public-read',
-          'x-amz-meta-Cache-Control': 'public,max-age=86400',
-          'Cache-Control': 'public,max-age=86400',
-        }
-      }
-    });
-
-    uploader.on('error', reject);
-    uploader.on('end', fulfill);
-  });
+  const bucketParams = {
+    Bucket: bucket,
+    Body: fs.readFileSync(local),
+    Key: key,
+    Metadata: {
+      'x-amz-acl': 'public-read',
+      'x-amz-meta-Cache-Control': 'public,max-age=86400',
+      'Cache-Control': 'public,max-age=86400',
+    }
+  };
+  return s3Client.send(new PutObjectCommand(bucketParams));
 }
 
 function processTarget(target) {
@@ -104,7 +102,7 @@ function processNpm() {
   .then(()    => sha(path))
   .then((sha) => npmSha = sha)
   .then(function () {
-    npmURL = npmURL.replace('https://github.com/npm/npm/archive/', 'https://' + assetsHost + '/npm/');
+    npmURL = npmURL.replace('https://github.com/npm/cli/archive/', 'https://' + assetsHost + '/npm/');
     console.log(`Uploading ${npmURL}`);
     return s3upload(path, npmURL);
   });
