@@ -17,6 +17,7 @@ let assetsHost = 'binaries.particle.io';
 let crypto = require('crypto');
 let fs     = require('fs');
 let https  = require('https');
+let child_process = require('child_process');
 const {
   S3Client,
   PutObjectCommand
@@ -82,6 +83,15 @@ function s3upload (local, remote) {
   return s3Client.send(new PutObjectCommand(bucketParams));
 }
 
+function exec(cmd) {
+  return new Promise(function (fulfill, reject) {
+    child_process.exec(cmd, function (err, stdout) {
+      if (err) return reject(err);
+      fulfill(stdout);
+    });
+  });
+}
+
 function processTarget(target) {
   let path = `./tmp/${target.arch}-${target.os}-v${version}`;
   console.log(`Downloading ${target.url}`);
@@ -97,8 +107,15 @@ function processTarget(target) {
 
 function processNpm() {
   let path = './tmp/npm.zip';
+  let unzipPath = './tmp/npm';
+  let noLinksPath = './tmp/npm-no-links';
+  let zipPath = '../npm.zip';
   console.log(`Downloading ${npmURL}`);
   return download(npmURL, path)
+    // unzip, copy to remove symbolic links and re-zip
+  .then(() => exec(`rm -rf ${unzipPath} && unzip -q ${path} -d ${unzipPath}`))
+  .then(() => exec(`rm -rf ${noLinksPath} && cp -L -R ${unzipPath} ${noLinksPath}`))
+  .then(() => exec(`rm ${path} && cd ${noLinksPath} && zip -q -r ${zipPath} .`))
   .then(()    => sha(path))
   .then((sha) => npmSha = sha)
   .then(function () {
