@@ -135,7 +135,7 @@ def manifest
 end
 
 def s3_client
-  @s3_client ||= Aws::S3::Client.new(region: 'us-east-1', access_key_id: ENV['PARTICLE_CLI_RELEASE_ACCESS'], secret_access_key: ENV['PARTICLE_CLI_RELEASE_SECRET'], session_token: ENV['PARTICLE_CLI_RELEASE_SESSION_TOKEN'])
+  @s3_client ||= Aws::S3::Client.new(region: 'us-east-1', access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'], session_token: ENV['AWS_SESSION_TOKEN'])
 end
 
 def upload_file(local, remote, opts={})

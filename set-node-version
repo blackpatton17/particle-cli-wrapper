@@ -6,8 +6,8 @@
  * Install @aws-sdk/client-s3 with
  * npm install @aws-sdk/client-s3
  *
- * Log in to AWS with
- * aws sso login
+ * Provide AWS credentials by logging in to AWS through the browser, clicking  Command line or programmatic access
+ * and copy-pasting the short term credentials into the terminal
  */
 'use strict';
 
