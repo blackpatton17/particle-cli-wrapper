@@ -12,7 +12,7 @@ const Version = "16.20.0"
 // NpmVersion is the requested npm version
 const NpmVersion = "8.19.4"
 
-const npmSha = "1af70b2cafbea9a24eed6ba62a11eebf5ff0a54b6176c22ac21b891b79bcc5ad"
+const npmSha = "d03c2f6bac56dc3cd53a1e7a2ccc2ee0081531c97fed69b694d2b93bc16de43d"
 const npmURL = "https://binaries.particle.io/npm/v8.19.4.zip"
 
 var targets = []Target{
