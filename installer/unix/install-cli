@@ -101,7 +101,7 @@ TMP_FILE=$(mktemp)
 
 curl -s "$BINARY_URL.gz" | gunzip > "$TMP_FILE"
 
-echo "$BINARY_SHA256  $TMP_FILE" | sha256sum -c > /dev/null 2>&1
+echo "$BINARY_SHA256  $TMP_FILE" | shasum a 256 -c > /dev/null 2>&1
 if [ $? -eq 1 ]; then
    echo ':::: Checksum check failed! Aborting installation'
    exit 1
