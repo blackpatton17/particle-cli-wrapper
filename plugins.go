@@ -81,15 +81,10 @@ func isPluginSymlinked(plugin string) bool {
 	return fi.Mode()&os.ModeSymlink != 0
 }
 
-func hasPackageJson() bool {
-    _, err := os.Stat(filepath.Join(AppDir(), "package.json"))
-    return err == nil
-}
-
 // ensure all the Javascript plugin are installed
 func SetupPlugins(pluginNames ...string) {
 	newPluginNames := difference(pluginNames, PluginNames())
-	if len(newPluginNames) == 0 && hasPackageJson() {
+	if len(newPluginNames) == 0 {
 		return
 	}
 	Err("particle: Installing plugins...")
@@ -131,11 +126,7 @@ func installPlugins(names ...string) error {
 			unlockPlugin(name)
 		}
 	}()
-	err := gode.RemovePackageLock()
-	if err != nil {
-		return err
-	}
-	err = gode.InstallPackages(names...)
+	err := gode.InstallPackages(names...)
 	if err != nil {
 		return err
 	}
