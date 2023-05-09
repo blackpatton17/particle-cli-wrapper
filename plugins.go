@@ -131,7 +131,11 @@ func installPlugins(names ...string) error {
 			unlockPlugin(name)
 		}
 	}()
-	err := gode.InstallPackages(names...)
+	err := gode.RemovePackageLock()
+	if err != nil {
+		return err
+	}
+	err = gode.InstallPackages(names...)
 	if err != nil {
 		return err
 	}
