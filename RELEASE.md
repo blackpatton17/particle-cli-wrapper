@@ -4,12 +4,13 @@ Prerequisites:
 
 * `gem install rake aws-sdk-s3`
 * `particle-cli-wrapper` repo
-* `PARTICLE_CLI_RELEASE_ACCESS` and `PARTICLE_CLI_RELEASE_SECRET` for the S3 repository
+* AWS access for the S3 bucket `mode-static-binaries-particle-io-20230314171309486000000003`
 
 Instructions:
 
 * Increment version
 * Update CHANGELOG
+* Provide AWS credentials by logging in to AWS through the browser, clicking  Command line or programmatic access and copy-pasting the short term credentials into the terminal
 * [optional] Update `beta` branch with latest changes.
 * [optional] Run `rake release` on beta branch to test changes.
 * [optional] macOS, Linux: Run `CHANNEL=beta bash <( curl -sL https://particle.io/install-cli )` to install the beta
@@ -29,7 +30,7 @@ Make sure the user with the S3 credentials above have these permissions.
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::binaries.particle.io"
+                "arn:aws:s3:::mode-static-binaries-particle-io-20230314171309486000000003"
             ]
         },
         {
@@ -41,7 +42,7 @@ Make sure the user with the S3 credentials above have these permissions.
                 "s3:PutObjectAcl"
             ],
             "Resource": [
-                "arn:aws:s3:::binaries.particle.io/*"
+                "arn:aws:s3:::mode-static-binaries-particle-io-20230314171309486000000003/*"
             ]
         }
     ]

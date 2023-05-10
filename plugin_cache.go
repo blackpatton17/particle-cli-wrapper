@@ -7,6 +7,7 @@ import (
 )
 
 var pluginCachePath = filepath.Join(AppDir(), "plugin-cache.json")
+var packageJsonPath = filepath.Join(AppDir(), "package.json")
 
 // AddPluginsToCache adds/updates a set of plugins to ~/.particle/plugin-cache.json
 func AddPluginsToCache(plugins ...*Plugin) {
@@ -42,6 +43,11 @@ func FetchPluginCache() map[string]*Plugin {
 	if exists, _ := fileExists(pluginCachePath); !exists {
 		return plugins
 	}
+	// plugin-cache.json is redundant with package.json but we're not removing it now to avoid the chore
+	// if package.json is missing, assume that no plugins are installed correctly
+	if exists, _ := fileExists(packageJsonPath); !exists {
+	    return plugins
+    }
 	f, err := os.Open(pluginCachePath)
 	if err != nil {
 		return plugins

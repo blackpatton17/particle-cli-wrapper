@@ -6,7 +6,7 @@ require 'json'
 
 PRODUCT_NAME = 'cli'
 BINARY_NAME = 'particle'
-BUCKET_NAME = 'binaries.particle.io'
+BUCKET_NAME = 'mode-static-binaries-particle-io-20230314171309486000000003'
 ASSETS_HOST = 'binaries.particle.io'
 
 TARGETS = [
@@ -22,10 +22,6 @@ dirty = `git status 2> /dev/null | tail -n1`.chomp != 'nothing to commit, workin
 CHANNEL = dirty ? 'dirty' : `git rev-parse --abbrev-ref HEAD`.chomp
 LABEL = "particle-cli-wrapper/#{VERSION} (#{CHANNEL})"
 REVISION=`git log -n 1 --pretty=format:"%H"`
-
-task :sha do
-  puts sha_digest("dist/linux/amd64/particle")
-end
 
 task :manifest do
   puts JSON.dump(manifest)
@@ -54,6 +50,7 @@ task :release => :build do
     upload_file(from, to, content_type: 'binary/octet-stream', cache_control: cache_control)
     upload_file(from + '.gz', to + '.gz', content_type: 'binary/octet-stream', content_encoding: 'gzip', cache_control: cache_control)
     upload(sha_digest(from), to + ".sha1", content_type: 'text/plain', cache_control: cache_control)
+    upload(sha256_digest(from), to + ".sha256", content_type: 'text/plain', cache_control: cache_control)
   end
   upload_manifest()
   puts "Released #{VERSION}"
@@ -99,6 +96,10 @@ def sha_digest(path)
   Digest::SHA1.file(path).hexdigest
 end
 
+def sha256_digest(path)
+  Digest::SHA256.file(path).hexdigest
+end
+
 def local_path(os, arch)
   ext = ".exe" if os === 'windows'
   "./dist/#{os}/#{arch}/#{BINARY_NAME}#{ext}"
@@ -125,7 +126,8 @@ def manifest
     @manifest[:builds][target[:os]] ||= {}
     @manifest[:builds][target[:os]][target[:arch]] = {
       url: remote_url(target[:os], target[:arch]),
-      sha1: sha_digest(local_path(target[:os], target[:arch]))
+      sha1: sha_digest(local_path(target[:os], target[:arch])),
+      sha256: sha256_digest(local_path(target[:os], target[:arch])),
     }
   end
 
@@ -133,7 +135,7 @@ def manifest
 end
 
 def s3_client
-  @s3_client ||= Aws::S3::Client.new(region: 'us-east-1', access_key_id: ENV['PARTICLE_CLI_RELEASE_ACCESS'], secret_access_key: ENV['PARTICLE_CLI_RELEASE_SECRET'])
+  @s3_client ||= Aws::S3::Client.new(region: 'us-east-1', access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'], session_token: ENV['AWS_SESSION_TOKEN'])
 end
 
 def upload_file(local, remote, opts={})

@@ -34,6 +34,11 @@ func Packages() ([]Package, error) {
 	return packages, nil
 }
 
+// RemovePackageLock removes the package-lock.json file
+func RemovePackageLock() error {
+    return os.Remove(filepath.Join(rootPath, "package-lock.json"))
+}
+
 // InstallPackages installs a npm packages.
 func InstallPackages(packages ...string) error {
 	args := append([]string{"install", "--force"}, packages...)

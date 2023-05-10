@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.0] - 2023-05-03
+
+- Verify version updates using SHA256
+- Update backing Node.js version to `v16`
+
 ## [1.1.0] - 2020-03-18
 
 - Fix `upate-cli` command's native module handling
