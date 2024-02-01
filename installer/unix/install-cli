@@ -14,7 +14,7 @@
 
 CHANNEL=${CHANNEL:-master}
 BINARY="particle"
-DEST_PATH="/usr/local/bin"
+DEST_PATH="/bin"
 DEST="$DEST_PATH/$BINARY"
 MANIFEST_URL="https://binaries.particle.io/cli/${CHANNEL}/manifest.json"
 SHELL_CONFIG="$HOME/.bash_profile"
